@@ -5,7 +5,7 @@ pipeline {
         agent any
         steps {
             withSonarQubeEnv('YuxinsSonar') {
-                sh './mvnw clean package sonar:sonar'
+                sh './mvnw clean verify package sonar:sonar -Dsonar.host.url=http://192.168.33.21'
             }
         }
         post {
