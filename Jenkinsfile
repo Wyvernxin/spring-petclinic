@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-      stage("build & SonarQube analysis") {
+      stage("build & analysis") {
         agent any
         steps {
             withSonarQubeEnv('YuxinsSonar') {
