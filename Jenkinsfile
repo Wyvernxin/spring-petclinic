@@ -14,7 +14,7 @@ pipeline {
 
     stage('run SonarQube scan') {
         steps {
-            withMaven {
+            withSonarQubeEnv('YuxinsSonar') {
                 sh './mvnw  sonar:sonar'
             }
         }
@@ -25,11 +25,11 @@ pipeline {
         }
     }
     // Wait for the timeout -- max time is 10 minutes
-    stage("Get Sonar Quality Gate") {
-        steps {
-            timeout(time: 10, unit: 'MINIUTES') {
-                waitForQualityGate abortPipeline: true
-            }
-        }
-    }
+//     stage("Get Sonar Quality Gate") {
+//         steps {
+//             timeout(time: 10, unit: 'MINIUTES') {
+//                 waitForQualityGate abortPipeline: true
+//             }
+//         }
+//     }
 }
