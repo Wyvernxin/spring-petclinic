@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build Project and Run Sonar Scan') {
+        stage('Build Project') {
             steps {
                 withMaven {
                     sh './mvnw clean install'
@@ -14,6 +14,14 @@ pipeline {
                     withMaven {
                         sh './mvnw sonar:sonar'
                     }
+                }
+            }
+        }
+        stage('Post out built outcome'){
+            agent any
+            post{
+                success{
+                    archiveArtifacts 'target/*.jar
                 }
             }
         }
