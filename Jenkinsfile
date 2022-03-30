@@ -15,10 +15,12 @@ pipeline {
                         sh './mvnw sonar:sonar'
                     }
                 }
-            }  
+            }
+        }
+        stage('Post out built outcome'){
             post{
                 success{
-                    archiveArtifacts 'target/*.jar
+                    archiveArtifacts 'target/*.jar'
                 }
             }
         }
