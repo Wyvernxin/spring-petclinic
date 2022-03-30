@@ -19,11 +19,7 @@ pipeline {
         }
         stage('Post out built outcome') {
             steps{
-                post{
-                    success{
-                        archiveArtifacts 'target/*.jar'
-                    }
-                }       
+                archiveArtifacts 'target/*.jar'
             }
         }
     }
