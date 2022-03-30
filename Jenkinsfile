@@ -1,26 +1,19 @@
 pipeline {
     agent any
     stages {
-        stage('Build Project') {
+        stage('Build Project and Run Sonar Scan') {
             steps {
                 withMaven {
                     sh './mvnw clean install'
                 }
             }
         }
-        stage('SonarQube analyze') {
+        stage('Run SonarQube Scan') {
             steps {
                 withSonarQubeEnv('YuxinsSonar') {
                     withMaven {
                         sh './mvnw sonar:sonar'
                     }
-                }
-            }
-        }
-        stage('Post out built outcome'){
-            post{
-                success{
-                    archiveArtifacts 'target/*.jar'
                 }
             }
         }
