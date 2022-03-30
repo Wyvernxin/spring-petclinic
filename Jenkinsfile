@@ -1,30 +1,46 @@
 pipeline {
     agent any
     stages {
-        stage("build project") {
-            agent any
+        stage('Build Project and Run Sonar Scan') {
             steps {
-                withSonarQubeEnv('YuxinsSonar') {
-//                 sh './mvnw clean verify package sonar:sonar -Dsonar.host.url=http://192.168.33.21:9000'
-                    sh './mvnw clean install clean package'
-
+                withMaven {
+                    sh './mvnw clean install'
                 }
             }
         }
-
-        stage('run SonarQube scan') {
-            agent any
+        stage('Run SonarQube Scan') {
             steps {
                 withSonarQubeEnv('YuxinsSonar') {
-                    sh './mvnw clean package'
-                    sh './mvnw  sonar:sonar'
-                }
-            }
-            post {
-                success {
-                    archiveArtifacts 'target/*.jar'
+                    withMaven {
+                        sh './mvnw sonar:sonar'
+                    }
                 }
             }
         }
+//         stage("build project") {
+//             agent any
+//             steps {
+//                 withSonarQubeEnv('YuxinsSonar') {
+// //                 sh './mvnw clean verify package sonar:sonar -Dsonar.host.url=http://192.168.33.21:9000'
+//                     sh './mvnw clean install clean package'
+
+//                 }
+//             }
+//         }
+
+//         stage('run SonarQube scan') {
+//             agent any
+//             steps {
+//                 withSonarQubeEnv('YuxinsSonar') {
+//                     sh './mvnw clean package'
+//                     sh './mvnw  sonar:sonar'
+//                 }
+//             }
+//             post {
+//                 success {
+//                     archiveArtifacts 'target/*.jar'
+//                 }
+//             }
+//         }
     }
 }
