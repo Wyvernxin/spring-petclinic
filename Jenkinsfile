@@ -3,10 +3,8 @@ pipeline {
     stages {
         stage('Build Project') {
             steps {
-                withSonarQubeEnv('YuxinsSonar') {
-                    withMaven {
-                        sh './mvnw clean install'
-                    }
+                withMaven {
+                    sh './mvnw clean install'
                 }
             }
         }
@@ -17,11 +15,11 @@ pipeline {
                         sh './mvnw sonar:sonar'
                     }
                 }
-            }
-        }
-        stage('Post out built outcome') {
-            steps{
-                archiveArtifacts 'target/*.jar'
+            }  
+            post{
+                success{
+                    archiveArtifacts 'target/*.jar
+                }
             }
         }
     }
