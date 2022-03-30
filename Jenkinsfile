@@ -8,7 +8,7 @@ pipeline {
                 }
             }
         }
-        stage('Run SonarQube Scan') {
+        stage('SonarQube analyze') {
             steps {
                 withSonarQubeEnv('YuxinsSonar') {
                     withMaven {
@@ -18,7 +18,6 @@ pipeline {
             }
         }
         stage('Post out built outcome'){
-            agent any
             post{
                 success{
                     archiveArtifacts 'target/*.jar
