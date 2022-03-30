@@ -16,6 +16,7 @@ pipeline {
             agent any
             steps {
                 withSonarQubeEnv('YuxinsSonar') {
+                    sh './mvnw clean package'
                     sh './mvnw  sonar:sonar'
                 }
             }
