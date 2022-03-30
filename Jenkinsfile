@@ -3,8 +3,10 @@ pipeline {
     stages {
         stage('Build Project') {
             steps {
-                withMaven {
-                    sh './mvnw clean install'
+                withSonarQubeEnv('YuxinsSonar') {
+                    withMaven {
+                        sh './mvnw clean install'
+                    }
                 }
             }
         }
