@@ -1,21 +1,20 @@
 pipeline {
     agent any
     stages {
-        stage('Build Project and Run Sonar Scan') {
-            steps {
-                withMaven {
-                    sh './mvnw clean install'
-                }
+      stage("build & analysis") {
+        agent any
+        steps {
+            withSonarQubeEnv('YuxinsSonar') {
+//                 sh './mvnw clean verify package sonar:sonar -Dsonar.host.url=http://192.168.33.21:9000'
+                sh './mvnw clean verify package sonar:sonar'
+
             }
         }
-        stage('Run SonarQube Scan') {
-            steps {
-                withSonarQubeEnv('YuxinsSonar') {
-                    withMaven {
-                        sh './mvnw sonar:sonar'
-                    }
-                }
+        post {
+            success {
+                archiveArtifacts 'target/*.jar'
             }
         }
+      }
     }
 }
